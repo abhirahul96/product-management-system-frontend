@@ -4,7 +4,6 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Observable, catchError, map, throwError } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditmodalComponent } from './editmodal/editmodal.component';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +14,7 @@ export class AppComponent {
   productForm!: FormGroup;
   error: any = [];
   products: any;
-  apiUrl: string = environment.apiUrl
+  apiUrl: string = 'https://product-management-system-aee1.onrender.com/api/v1'
   isModalOpen: boolean = false;
 
   constructor(private fb: FormBuilder, protected http: HttpClient,

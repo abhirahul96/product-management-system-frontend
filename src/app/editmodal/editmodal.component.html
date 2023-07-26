@@ -1,0 +1,46 @@
+<div class="modal-header">
+    <h4 class="modal-title">Edit Product</h4>
+    <button type="button" class="close" aria-label="Close" (click)="dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="editForm"  (ngSubmit)="onSubmitEdit()" class="p-4">
+        <div >
+          <div class="mb-4 border p-3 rounded">
+            <div>
+              <div class="form-group">
+                <label>Product Name</label>
+                <input formControlName="productName" class="form-control" />
+              </div>
+      
+              <div class="form-group">
+                <label>Product Description</label>
+                <input formControlName="productDescription" class="form-control" />
+              </div>
+      
+              <div class="form-group">
+                <label>Price</label>
+                <input type="number" formControlName="price" class="form-control" />
+              </div>
+      
+              <div class="form-group">
+                <label>Category</label>
+                <input formControlName="category" class="form-control" />
+              </div>
+      
+              <div class="form-group">
+                <label>Stock Quantity</label>
+                <input type="number" formControlName="stockQuantity" class="form-control" />
+              </div>
+      
+            </div>
+          </div>
+        </div>
+        <button type="submit" [disabled]="editForm.invalid" class="btn btn-success">Submit</button>
+      </form>
+  </div>
+  <div class="modal-footer">
+    <!-- <button type="button" class="btn primary-button" (click)="accept()">hello</button> -->
+  </div>
+  

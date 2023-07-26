@@ -4,6 +4,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Observable, catchError, map, throwError } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditmodalComponent } from './editmodal/editmodal.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -12,26 +13,26 @@ import { EditmodalComponent } from './editmodal/editmodal.component';
 })
 export class AppComponent {
   productForm!: FormGroup;
-error:any=[];
-  products:any;
-  apiUrl: string = 'http://localhost:3000/api/v1'
+  error: any = [];
+  products: any;
+  apiUrl: string = environment.apiUrl
   isModalOpen: boolean = false;
 
   constructor(private fb: FormBuilder, protected http: HttpClient,
     private modalService: NgbModal,
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.productForm = this.fb.group({
       products: this.fb.array([]),
     });
     this.getProduct()
- 
+
   }
 
   getProduct() {
     this.get('product').subscribe(response => {
-      this.products=response
+      this.products = response
     })
   }
   get formControl() {
@@ -60,29 +61,29 @@ error:any=[];
   }
 
   onSubmit(): void {
-   this.post('product/bulk',{products:this.productArray.value}).subscribe((response)=>{
-    if(!response.error){
-      this.getProduct()
-      this.productsControl.clear()
-      this.error=[]
-    }
-   },(errors)=>{
-    errors.error.forEach((err:any)=>{
-      this.error[err.index]=err.fields
-      console.log(this.error)
+    this.post('product/bulk', { products: this.productArray.value }).subscribe((response) => {
+      if (!response.error) {
+        this.getProduct()
+        this.productsControl.clear()
+        this.error = []
+      }
+    }, (errors) => {
+      errors.error.forEach((err: any) => {
+        this.error[err.index] = err.fields
+        console.log(this.error)
+      })
     })
-   })
   }
 
 
-  removeArray(i:any){
+  removeArray(i: any) {
     this.productArray.removeAt(i)
-    this.error.splice(i,1)
+    this.error.splice(i, 1)
   }
 
 
   deleteProduct(i: any) {
-    this.delete(`product/${this.products[i].id}`).subscribe(response=>{
+    this.delete(`product/${this.products[i].id}`).subscribe(response => {
       this.getProduct()
     })
   }
@@ -96,7 +97,7 @@ error:any=[];
     });
     modalRef.componentInstance.product = this.products[i];
     modalRef.result.then((response) => {
-      this.put(`/product/${response.id}`,response).subscribe(response=>{
+      this.put(`/product/${response.id}`, response).subscribe(response => {
         this.getProduct();
 
       })
@@ -120,7 +121,7 @@ error:any=[];
     const url = `${this.apiUrl}/${endpoint}`;
     // const headers = this.getHeaders();
     // return this.http.post(url, data, { headers }).pipe(catchError(this.handleError));
-    return this.http.post(url,data).pipe(
+    return this.http.post(url, data).pipe(
       map((response: any) => response),
       catchError(this.handleError)
     );
